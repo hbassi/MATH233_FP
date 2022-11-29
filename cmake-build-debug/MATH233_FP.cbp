@@ -82,6 +82,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/hbass/Desktop/MATH233_FP/NN.cpp">
+			<Option target="MATH233_FP"/>
+		</Unit>
 		<Unit filename="C:/Users/hbass/Desktop/MATH233_FP/NN.h">
 			<Option target="MATH233_FP"/>
 		</Unit>

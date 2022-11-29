@@ -13,13 +13,13 @@ typedef float Scalar;
 typedef Eigen::MatrixXf Matrix;
 typedef Eigen::RowVectorXf RowVector;
 
-class NeuralNetwork {
+class NN {
 public:
-    NeuralNetwork(std::vector<int> neurons, Scalar learningRate = Scalar(0.005));
+    NN(std::vector<int> neurons, Scalar learningRate = Scalar(0.005));
 
     void propagateForward(RowVector& input);
     void propagateBackward(RowVector& output);
-    
+
     void calcErrors(RowVector& output);
     void updateWeights();
     void train(std::vector<RowVector*> data);
@@ -29,6 +29,8 @@ public:
     std::vector<RowVector*> deltas;
     std::vector<Matrix*> weights;
     Scalar learningRate;
+    //std::vector<int> neurons;
+    std::vector<int> neurons;
 };
 
 #endif //MATH233_FP_NN_H

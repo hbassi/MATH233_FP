@@ -128,6 +128,30 @@ MATH233_FP/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\MATH233_FP.dir\build.make CMakeFiles/MATH233_FP.dir/build
 .PHONY : MATH233_FP/fast
 
+NN.obj: NN.cpp.obj
+.PHONY : NN.obj
+
+# target to build an object file
+NN.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\MATH233_FP.dir\build.make CMakeFiles/MATH233_FP.dir/NN.cpp.obj
+.PHONY : NN.cpp.obj
+
+NN.i: NN.cpp.i
+.PHONY : NN.i
+
+# target to preprocess a source file
+NN.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\MATH233_FP.dir\build.make CMakeFiles/MATH233_FP.dir/NN.cpp.i
+.PHONY : NN.cpp.i
+
+NN.s: NN.cpp.s
+.PHONY : NN.s
+
+# target to generate assembly for a file
+NN.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\MATH233_FP.dir\build.make CMakeFiles/MATH233_FP.dir/NN.cpp.s
+.PHONY : NN.cpp.s
+
 layers.obj: layers.cpp.obj
 .PHONY : layers.obj
 
@@ -185,6 +209,9 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... MATH233_FP
+	@echo ... NN.obj
+	@echo ... NN.i
+	@echo ... NN.s
 	@echo ... layers.obj
 	@echo ... layers.i
 	@echo ... layers.s
