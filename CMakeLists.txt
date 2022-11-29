@@ -3,4 +3,4 @@ project(MATH233_FP)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(MATH233_FP main.cpp layers.cpp layers.h)
+add_executable(MATH233_FP main.cpp layers.cpp layers.h NN.h)
