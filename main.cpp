@@ -1,18 +1,30 @@
 #include <iostream>
 #include <tuple>
 #include "layers.h"
+#include "NN.h"
+
+void genData(std::string filename) {
+    std::ofstream file1(filename + "-in");
+    std::ofstream file2(filename + "-out");
+    for (int r = 0; r < 1000; r++) {
+        Scalar x = rand() / Scalar(RAND_MAX);
+        Scalar y = rand() / Scalar(RAND_MAX);
+        file1 << x << ", " << y << std::endl;
+        file2 << 2 * x + 10 + y << std::endl;
+    }
+    file1.close();
+    file2.close();
+}
+
+typedef std::vector<RowVector*> data;
 int main() {
-
-    layers L = layers();
-    double num_inputs = 2;
-    std::tuple<double,double,double> input_shape = std::make_tuple(4, 5, 6);
-    double output_dim = 3;
-    double input_size = L.input_size3D(num_inputs, input_shape);
-    double weight_size =  L.input_size3D(output_dim,input_shape);
-    //std::cout << input_size;
-
-    std::vector<double> x = L.linspace(-0.1,0.5, input_size);
-    std::vector<double> w = L.linspace(-0.2,0.3, weight_size);
-    std::vector<double> b = L.linspace(-0.3,0.1, output_dim);
+    NN n({ 2, 3, 1 });
+    data in_dat, out_dat;
+    genData("test");
+    n.ReadCSV("test-in", in_dat);
+    n.ReadCSV("test-out", out_dat);
+    n.train(in_dat, out_dat);
     return 0;
 }
+
+

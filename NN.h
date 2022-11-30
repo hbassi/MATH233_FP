@@ -15,21 +15,20 @@ typedef Eigen::RowVectorXf RowVector;
 
 class NN {
 public:
-    NN(std::vector<int> neurons, Scalar learningRate = Scalar(0.005));
+    NN(std::vector<int> neurons, Scalar learningRate = Scalar(0.01));
 
     void propagateForward(RowVector& input);
     void propagateBackward(RowVector& output);
-
     void calcErrors(RowVector& output);
     void updateWeights();
-    void train(std::vector<RowVector*> data);
+    void ReadCSV(std::string filename, std::vector<RowVector*>& data);
+    void train(std::vector<RowVector *> input_data, std::vector<RowVector *> output_data);
 
     std::vector<RowVector*> neuronLayers;
     std::vector<RowVector*> cacheLayers;
     std::vector<RowVector*> deltas;
     std::vector<Matrix*> weights;
     Scalar learningRate;
-    //std::vector<int> neurons;
     std::vector<int> neurons;
 };
 
