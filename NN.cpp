@@ -50,6 +50,7 @@ Scalar reluDer(Scalar x) {
 
 void NN::propagateForward(RowVector& input) {
     neuronLayers.front()->block(0, 0, 1, neuronLayers.front()->size() - 1) = input;
+#pragma omp  parallel for
     for (int i = 1; i < neurons.size(); i++) {
         (*neuronLayers[i]) = (*neuronLayers[i - 1]) * (*weights[i - 1]);
         neuronLayers[i]->block(0, 0, 1, neurons[i]).unaryExpr(std::ptr_fun(relu));
@@ -58,6 +59,7 @@ void NN::propagateForward(RowVector& input) {
 
 void NN::calcErrors(RowVector& output) {
     (*deltas.back()) = output - (*neuronLayers.back());
+#pragma omp  parallel for
     for (int i = neurons.size() - 2; i > 0; i--) {
         (*deltas[i]) = (*deltas[i + 1]) * (weights[i]->transpose());
     }
@@ -67,6 +69,7 @@ void NN::updateWeights() {
     for (int i = 0; i < neurons.size() - 1; i++) {
         if (i != neurons.size() - 2) {
             for (int c = 0; c < weights[i]->cols() - 1; c++) {
+#pragma omp  parallel for
                 for (int r = 0; r < weights[i]->rows(); r++) {
                     weights[i]->coeffRef(r, c) += learningRate * deltas[i + 1]->coeffRef(c) * reluDer(cacheLayers[i + 1]->coeffRef(c)) * neuronLayers[i]->coeffRef(r);
                 }
@@ -74,6 +77,7 @@ void NN::updateWeights() {
         }
         else {
             for (int c = 0; c < weights[i]->cols(); c++) {
+#pragma omp  parallel for
                 for (int r = 0; r < weights[i]->rows(); r++) {
                     weights[i]->coeffRef(r, c) += learningRate * deltas[i + 1]->coeffRef(c) * reluDer(cacheLayers[i + 1]->coeffRef(c)) * neuronLayers[i]->coeffRef(r);
                 }
