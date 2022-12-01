@@ -6,11 +6,11 @@
 void genData(std::string filename) {
     std::ofstream file1(filename + "-in");
     std::ofstream file2(filename + "-out");
-    for (int r = 0; r < 1000; r++) {
+    for (int r = 0; r < 100; r++) {
         Scalar x = rand() / Scalar(RAND_MAX);
         Scalar y = rand() / Scalar(RAND_MAX);
         file1 << x << ", " << y << std::endl;
-        file2 << 2 * x + 10 + y << std::endl;
+        file2 << 2 * x + 10 << std::endl;
     }
     file1.close();
     file2.close();

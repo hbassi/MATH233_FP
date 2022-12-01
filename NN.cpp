@@ -34,19 +34,25 @@ NN::NN(std::vector<int> neurons, Scalar learningRate){
     }
 }
 
-Scalar sigmoid(Scalar x) {
-    return 1.0 / (1.0 + exp(-x));
+Scalar relu(Scalar x) {
+    if (x <= 0)
+        return 0;
+    else
+        return x;
 }
 
-Scalar sigmoidder(Scalar x) {
-    return sigmoid(x) * (1.0 - sigmoid(x));
+Scalar reluDer(Scalar x) {
+    if (x <= 0)
+        return 0;
+    else
+        return 1;
 }
 
 void NN::propagateForward(RowVector& input) {
     neuronLayers.front()->block(0, 0, 1, neuronLayers.front()->size() - 1) = input;
     for (int i = 1; i < neurons.size(); i++) {
         (*neuronLayers[i]) = (*neuronLayers[i - 1]) * (*weights[i - 1]);
-        neuronLayers[i]->block(0, 0, 1, neurons[i]).unaryExpr(std::ptr_fun(sigmoid));
+        neuronLayers[i]->block(0, 0, 1, neurons[i]).unaryExpr(std::ptr_fun(relu));
     }
 }
 
@@ -62,14 +68,14 @@ void NN::updateWeights() {
         if (i != neurons.size() - 2) {
             for (int c = 0; c < weights[i]->cols() - 1; c++) {
                 for (int r = 0; r < weights[i]->rows(); r++) {
-                    weights[i]->coeffRef(r, c) += learningRate * deltas[i + 1]->coeffRef(c) * sigmoidder(cacheLayers[i + 1]->coeffRef(c)) * neuronLayers[i]->coeffRef(r);
+                    weights[i]->coeffRef(r, c) += learningRate * deltas[i + 1]->coeffRef(c) * reluDer(cacheLayers[i + 1]->coeffRef(c)) * neuronLayers[i]->coeffRef(r);
                 }
             }
         }
         else {
             for (int c = 0; c < weights[i]->cols(); c++) {
                 for (int r = 0; r < weights[i]->rows(); r++) {
-                    weights[i]->coeffRef(r, c) += learningRate * deltas[i + 1]->coeffRef(c) * sigmoidder(cacheLayers[i + 1]->coeffRef(c)) * neuronLayers[i]->coeffRef(r);
+                    weights[i]->coeffRef(r, c) += learningRate * deltas[i + 1]->coeffRef(c) * reluDer(cacheLayers[i + 1]->coeffRef(c)) * neuronLayers[i]->coeffRef(r);
                 }
             }
         }
