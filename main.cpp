@@ -6,10 +6,9 @@
 void genData(std::string filename) {
     std::ofstream file1(filename + "-in");
     std::ofstream file2(filename + "-out");
-    for (int r = 0; r < 100; r++) {
+    for (int r = 0; r < 10000; r++) {
         Scalar x = rand() / Scalar(RAND_MAX);
-        Scalar y = rand() / Scalar(RAND_MAX);
-        file1 << x << ", " << y << std::endl;
+        file1 << x  << std::endl;
         file2 << 2 * x + 10 << std::endl;
     }
     file1.close();
@@ -18,7 +17,7 @@ void genData(std::string filename) {
 
 typedef std::vector<RowVector*> data;
 int main() {
-    NN n({ 2, 3, 1 });
+    NN n({ 1, 16, 16, 1 });
     data in_dat, out_dat;
     genData("test");
     n.ReadCSV("test-in", in_dat);
